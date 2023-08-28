@@ -15,20 +15,23 @@ namespace WeatherParser
 {
     public class Parser
     {
-        public static List<Town> Do()
+        public static List<Region> Do()
         {
-            var towns = CreateTowns();
-            //
-            foreach (var town in towns)
+            var regions = DefaultRegions.CreateRegions();
+            foreach (var region in regions)
             {
-                var ws = ParseWeather(town, "atlas");
-                foreach (var w in ws)
+                //
+                foreach (var town in region.Towns)
                 {
-                    town.WeatherList.Add(w);
+                    var ws = ParseWeather(town, "atlas");
+                    foreach (var w in ws)
+                    {
+                        town.WeatherList.Add(w);
+                    }
                 }
             }
             //
-            return towns;
+            return regions;
         }
 
         public static List<Weather> ParseWeather(Town town, string site)
@@ -136,18 +139,6 @@ namespace WeatherParser
             return data;
         }
 
-        public static List<Town> CreateTowns()
-        {
-            var townList = new List<Town>();
-            //
-            townList.Add(new Town()
-            {
-                Name = "Донецк",
-                Link_meteoservice = "https://www.meteoservice.ru/weather/14days/donetsk-135-ua",
-                Link_atlas = "https://www.weather-atlas.com/en/ukraine/donetsk-long-term-weather-forecast"
-            });
-            //
-            return townList;
-        }
+        
     }
 }

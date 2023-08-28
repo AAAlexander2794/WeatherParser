@@ -28,14 +28,17 @@ namespace WeatherParser
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var towns = Parser.Do();
+            var regions = Parser.Do();
             string text = "";
-            foreach (var town in towns)
+            foreach (var region in regions)
             {
-                text += town.Name + "\n";
-                foreach (var w in town.WeatherList)
+                foreach (var town in region.Towns)
                 {
-                    text += $"{w.Data}\n";
+                    text += town.Name + "\n";
+                    foreach (var w in town.WeatherList)
+                    {
+                        text += $"{w.Data}\n";
+                    }
                 }
             }
             tbResult.Text = text;
