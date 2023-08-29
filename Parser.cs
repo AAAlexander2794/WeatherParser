@@ -50,6 +50,7 @@ namespace WeatherParser
 
         private static IHtmlDocument GetHtml(string link)
         {
+            if (link == "") return null;
             //
             string html = DownloadHtml(link);
             //
@@ -79,7 +80,7 @@ namespace WeatherParser
                 foreach (var div in element.QuerySelectorAll("div"))
                 {
                     strings.Add(div.TextContent);
-                    weather.Data += div.TextContent + "\n";
+                    //weather.Data += div.TextContent + "\n";
                 }
                 //
                 weatherList.Add(weather);
@@ -96,8 +97,11 @@ namespace WeatherParser
         /// <returns></returns>
         public static List<Weather> ParseWeather_atlas(IHtmlDocument angle)
         {
+            
             //
             List<Weather> weatherList = new List<Weather>();
+            //
+            if (angle == null) return weatherList;
             // Каждый элемент - строка одной даты
             foreach (IElement row in angle.QuerySelectorAll("[itemtype=\"https://schema.org/Table\"] > .row"))
             {
@@ -129,6 +133,7 @@ namespace WeatherParser
             }
             //
             var date = DateTime.Parse(strings[1].Remove(0, 3));
+            weather.Date = DateOnly.FromDateTime(date);
             weather.DateDay = date.Day.ToString();
             weather.DateMonth = date.Month.ToString();
             //

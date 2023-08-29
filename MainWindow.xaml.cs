@@ -29,6 +29,7 @@ namespace WeatherParser
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var regions = Parser.Do();
+            Saver.SaveData(regions);
             string text = "";
             foreach (var region in regions)
             {

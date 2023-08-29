@@ -19,9 +19,9 @@ namespace WeatherParser
         public string DateMonth { get; set; } = "";
 
         /// <summary>
-        /// Данные другие
+        /// Дата
         /// </summary>
-        public string Data { get; set; } = "";
+        public DateOnly Date { get; set; } = new DateOnly();       
 
         /// <summary>
         /// Температура, градусы Цельсия
