@@ -37,8 +37,9 @@ namespace WeatherParser
                     text += town.Name + "\n";
                     foreach (var w in town.WeatherList)
                     {
-                        text += $"{w.Data}\n";
+                        text += w.ToString() + "\n\n";
                     }
+                    text += "\n";
                 }
             }
             tbResult.Text = text;

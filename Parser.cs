@@ -88,6 +88,12 @@ namespace WeatherParser
             return weatherList;
         }
 
+        /// <summary>
+        /// Парсинг с сайта (вкладка long_term)
+        /// https://www.weather-atlas.com/
+        /// </summary>
+        /// <param name="angle"></param>
+        /// <returns></returns>
         public static List<Weather> ParseWeather_atlas(IHtmlDocument angle)
         {
             //
@@ -96,31 +102,42 @@ namespace WeatherParser
             foreach (IElement row in angle.QuerySelectorAll("[itemtype=\"https://schema.org/Table\"] > .row"))
             {
                 //
-                var weather = new Weather();
-                //
                 List<string> strings = new List<string>();
                 // Ищем вложенно тексты в дивах
                 foreach (var div1 in row.QuerySelectorAll("div > div > div"))
                 {
                     strings.Add(div1.TextContent);
-                    //foreach (var div2 in row.QuerySelectorAll("div"))
-                    //{
-                    //    foreach (var div3 in row.QuerySelectorAll("div"))
-                    //    {
-
-                    //    }
-                    //}
-                }
-                // За
-                foreach (var str in strings)
-                {
-                    weather.Data += str + "\n";
                 }
                 //
-                weatherList.Add(weather);
+                weatherList.Add(ParseWeather_atlas(strings));
             }
             //
             return weatherList;
+        }
+
+        private static Weather ParseWeather_atlas(List<string> strings)
+        {
+            //
+            var weather = new Weather();
+            // Делим
+            var temps = strings[3].Split("°C");
+            // Первый день только минимальная температура ("min."), это надо обработать
+            if (temps.Length > 1)
+            {
+                weather.TemperatureMin = temps[0].Replace("min.", "");
+                weather.TemperatureMax = temps[1].Replace("max.", "");
+            }
+            //
+            var date = DateTime.Parse(strings[1].Remove(0, 3));
+            weather.DateDay = date.Day.ToString();
+            weather.DateMonth = date.Month.ToString();
+            //
+            var string7 = strings[7].Split(" ");
+            weather.Wind = string7[1].Replace(@"km/h", "");
+            //
+            weather.Humidity = string7[4].Replace("%UV", "");
+            //
+            return weather;
         }
 
         private static string DownloadHtml(string webRequest)

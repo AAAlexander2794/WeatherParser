@@ -34,10 +34,13 @@ namespace WeatherParser
             //
             lugansk.Towns.Add(new Town()
             {
-                Name = "",
-                Link_meteoservice = "",
-                Link_atlas = ""
+                Name = "Луганск",
+                Link_meteoservice = "https://www.meteoservice.ru/weather/14days/lugansk",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/luhansk-long-term-weather-forecast"
             });
+            // Добавляем регионы к списку
+            regions.Add(donetsk);
+            regions.Add(lugansk);
             //
             return regions;
         }
