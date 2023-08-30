@@ -30,8 +30,8 @@ namespace WeatherParser
                     {
                         town.WeatherList.Add(w);
                     }
-                    // test
-                    break;
+                    //// test
+                    //break;
                 }
             }
             //
