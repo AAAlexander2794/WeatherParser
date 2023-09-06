@@ -141,7 +141,7 @@ namespace WeatherParser
                 Name = "Кировское",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/kirovsk-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = "https://www.gismeteo.ru/weather-kirovskoye-12386/10-days/"
             });
@@ -166,7 +166,7 @@ namespace WeatherParser
                 Name = "Алчевск",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/alchevsk-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });
@@ -175,7 +175,7 @@ namespace WeatherParser
                 Name = "Северодонецк",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/severodonetsk-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });
@@ -193,7 +193,7 @@ namespace WeatherParser
                 Name = "Краснодон",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/krasnodon-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });
@@ -202,7 +202,7 @@ namespace WeatherParser
                 Name = "Красный луч",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/krasnyi-luch-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });
@@ -229,7 +229,7 @@ namespace WeatherParser
                 Name = "Рубежное",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/rubizhne-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });
@@ -238,7 +238,7 @@ namespace WeatherParser
                 Name = "Антрацит",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/antratsyt-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });
@@ -283,7 +283,7 @@ namespace WeatherParser
                 Name = "Лутугино",
                 NameAlt = "",
                 Link_meteoservice = "",
-                Link_atlas = "",
+                Link_atlas = "https://www.weather-atlas.com/en/ukraine/lutuhyne-long-term-weather-forecast",
                 Link_weatheronline = "",
                 Link_gismeteo = ""
             });

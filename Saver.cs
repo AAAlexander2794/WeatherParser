@@ -27,6 +27,7 @@ namespace WeatherParser
             dt.Columns.Add("Дата");
             dt.Columns.Add("Мин. темп.");
             dt.Columns.Add("Макс. темп.");
+            dt.Columns.Add("Средняя темп.");
             dt.Columns.Add("Влажность");
             dt.Columns.Add("Ветер");
             //
@@ -42,8 +43,9 @@ namespace WeatherParser
                         dt.Rows[dt.Rows.Count - 1][2] = weather.Date;
                         dt.Rows[dt.Rows.Count - 1][3] = weather.TemperatureMin;
                         dt.Rows[dt.Rows.Count - 1][4] = weather.TemperatureMax;
-                        dt.Rows[dt.Rows.Count - 1][5] = weather.Humidity;
-                        dt.Rows[dt.Rows.Count - 1][6] = weather.Wind;
+                        dt.Rows[dt.Rows.Count - 1][5] = weather.Temperature;
+                        dt.Rows[dt.Rows.Count - 1][6] = weather.Humidity;
+                        dt.Rows[dt.Rows.Count - 1][7] = weather.Wind;
                     }
                 }
             }

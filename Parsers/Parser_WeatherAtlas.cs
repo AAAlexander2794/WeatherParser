@@ -49,8 +49,20 @@ namespace WeatherParser.Parsers
             // Первый день только минимальная температура ("min."), это надо обработать
             if (temps.Length > 1)
             {
-                weather.TemperatureMin = temps[0].Replace("min.", "");
-                weather.TemperatureMax = temps[1].Replace("max.", "");
+                weather.TemperatureMin = temps[1].Replace("min.", "");
+                weather.TemperatureMax = temps[0].Replace("max.", "");
+            }
+            //
+            if (weather.TemperatureMin != "" && weather.TemperatureMax != "")
+            {
+                var min = int.Parse(weather.TemperatureMin);
+                var max = int.Parse(weather.TemperatureMax);
+                weather.Temperature = ((min + max) / 2).ToString();
+            }
+            else
+            {
+                // Одно из них пустое, так что в тексте видно только оставшуюся температуру
+                weather.Temperature = weather.TemperatureMin + weather.TemperatureMax;
             }
             //
             var date = DateTime.Parse(strings[1].Remove(0, 3));
