@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherParser
+namespace WeatherParser.Parsers.WeatherAtlas
 {
     public class Weather
     {
@@ -21,7 +21,7 @@ namespace WeatherParser
         /// <summary>
         /// Дата
         /// </summary>
-        public DateOnly Date { get; set; } = new DateOnly();       
+        public DateOnly Date { get; set; } = new DateOnly();
 
         /// <summary>
         /// Температура, градусы Цельсия

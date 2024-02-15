@@ -12,8 +12,10 @@ using AngleSharp.Html.Parser;
 using AngleSharp.Dom;
 using WeatherParser.Parsers;
 using System.Net.Http;
+using WeatherParser.Parsers.RP5;
+using WeatherParser.Parsers.WeatherAtlas;
 
-namespace WeatherParser
+namespace WeatherParser.Common
 {
     public class Parser
     {
@@ -25,11 +27,11 @@ namespace WeatherParser
                 //
                 foreach (var town in region.Towns)
                 {
-                    var ws = ParseWeather(town, "atlas");
-                    foreach (var w in ws)
-                    {
-                        town.WeatherList.Add(w);
-                    }
+                     ParseWeather(town, "rp5");
+                    //foreach (var w in ws)
+                    //{
+                    //    town.WeatherList.Add(w);
+                    //}
                     //// test
                     //break;
                 }
@@ -38,20 +40,27 @@ namespace WeatherParser
             return regions;
         }
 
-        public static List<Weather> ParseWeather(Town town, string site)
+        public static void ParseWeather(Town town, string site)
         {
             //
             switch (site)
             {
                 case "meteoservice":
-                    return Parser_MeteoService.Parse(GetHtml(town.Link_meteoservice));
+                     Parser_MeteoService.Parse(GetHtml(town.Link_meteoservice));
+                    break;
                 case "atlas":
-                    return Parser_WeatherAtlas.Parse(GetHtml(town.Link_atlas));
+                     Parser_WeatherAtlas.Parse(GetHtml(town.Link_atlas));
+                    break;
                 case "gismeteo":
-                    return Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
-                default: 
-                    return Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
-            }  
+                     Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
+                    break;
+                case "rp5":
+                     Parser_RP5.Parse(GetHtml(town.Link_RP5), town.Name);
+                    break;
+                default:
+                     Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
+                    break;
+            }
         }
 
         private static IHtmlDocument GetHtml(string link)
@@ -85,6 +94,6 @@ namespace WeatherParser
             return data;
         }
 
-        
+
     }
 }

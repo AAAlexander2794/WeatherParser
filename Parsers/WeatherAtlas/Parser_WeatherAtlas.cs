@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherParser.Parsers
+namespace WeatherParser.Parsers.WeatherAtlas
 {
     public static class Parser_WeatherAtlas
     {

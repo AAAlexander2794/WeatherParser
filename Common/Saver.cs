@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Data;
 
 
-namespace WeatherParser
+namespace WeatherParser.Common
 {
     public static class Saver
     {
@@ -31,7 +31,7 @@ namespace WeatherParser
             dt.Columns.Add("Влажность");
             dt.Columns.Add("Ветер");
             //
-            foreach(Region region in regions)
+            foreach (Region region in regions)
             {
                 foreach (var town in region.Towns)
                 {

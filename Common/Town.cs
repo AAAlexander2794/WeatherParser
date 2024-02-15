@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeatherParser.Parsers.WeatherAtlas;
 
-namespace WeatherParser
+namespace WeatherParser.Common
 {
     public class Town
     {
@@ -25,6 +26,8 @@ namespace WeatherParser
         public string Link_weatheronline { get; set; } = "";
 
         public string Link_gismeteo { get; set; } = "";
+
+        public string Link_RP5 { get; set; } = "";
 
         public List<Weather> WeatherList { get; set; } = new List<Weather>();
     }
