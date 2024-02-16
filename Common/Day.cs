@@ -8,6 +8,8 @@ namespace WeatherParser.Common
 {
     public class Day
     {
+        public Town? Town { get; set; }
+
         public string День_недели { get; set; } = "";
 
         /// <summary>

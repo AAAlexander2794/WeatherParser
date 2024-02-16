@@ -24,18 +24,18 @@ namespace WeatherParser.Parsers.RP5
             //
             var weatherTable = ParseToWeatherTable(divs);
             //
-            town.Days = Parse(weatherTable);
+            town.Days = Parse(weatherTable, town);
             //
             return town;
         }
 
-        private static List<Day> Parse(WeatherTable weatherTable)
+        private static List<Day> Parse(WeatherTable weatherTable, Town town)
         {
             List<Day> days = new List<Day>();
             // Добавляем все дни
             for (int i = 0; i < weatherTable.День_недели.Count; i++)
             {
-                days.Add(new Day());
+                days.Add(new Day() { Town = town });
                 days[days.Count - 1].День_недели = weatherTable.День_недели[i];
             }
             // Счетчик дня
@@ -116,7 +116,7 @@ namespace WeatherParser.Parsers.RP5
                 table.Температура.Add(div.TextContent.Trim());
             }
             // 7.
-            foreach (IElement div in rows[6].QuerySelectorAll(".t_0"))
+            foreach (IElement div in rows[6].QuerySelectorAll("td"))
             {
                 table.Ощущается_как.Add(div.TextContent.Trim());
             }
