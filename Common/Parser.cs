@@ -55,7 +55,7 @@ namespace WeatherParser.Common
                      Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
                     break;
                 case "rp5":
-                     Parser_RP5.Parse(GetHtml(town.Link_RP5), town.Name);
+                     Parser_RP5.Parse(GetHtml(town.Link_RP5), town);
                     break;
                 default:
                      Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));

@@ -14,7 +14,14 @@ namespace WeatherParser.Common
         /// </summary>
         public string Name { get; set; } = "";
 
+        /// <summary>
+        /// Дни погоды
+        /// </summary>
+        public List<Day> Days { get; set; } = new List<Day>();
+
         public string NameAlt { get; set; } = "";
+
+        #region Ссылки для парсинга
 
         /// <summary>
         /// Ссылка на страничку для парсинга
@@ -28,6 +35,8 @@ namespace WeatherParser.Common
         public string Link_gismeteo { get; set; } = "";
 
         public string Link_RP5 { get; set; } = "";
+
+        #endregion Ссылки для парсинга
 
         public List<Weather> WeatherList { get; set; } = new List<Weather>();
     }

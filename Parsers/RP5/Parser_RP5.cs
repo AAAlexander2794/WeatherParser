@@ -7,18 +7,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WeatherParser.Common;
 
 namespace WeatherParser.Parsers.RP5
 {
     public static class Parser_RP5
     {
-        public static Town Parse(IHtmlDocument angle, string townName)
+        public static Town Parse(IHtmlDocument angle, Town town)
         {
-            //
-            Town town = new Town()
-            { 
-                Name = townName
-            };
             //
             if (angle == null) return town;
             // Таблица с данными
@@ -48,7 +44,7 @@ namespace WeatherParser.Parsers.RP5
             for (int i = 1; i < weatherTable.Местное_время.Count; i++)
             {
                 // Добавляем к текущему дню
-                days[dayCounter].Add(weatherTable, i);
+                Add(days[dayCounter], weatherTable, i);
                 // Последний столбец суток - 21 час
                 if (weatherTable.Местное_время[i] == "21")
                 {
@@ -60,6 +56,27 @@ namespace WeatherParser.Parsers.RP5
             return days;
         }
 
+        public static void Add(Day day, WeatherTable table, int i)
+        {
+            //
+            WeatherView weatherView = new WeatherView();
+            //
+            weatherView.Ветер_Направление = table.Ветер_Направление[i];
+            weatherView.Ветер_Порывы = table.Ветер_Порывы[i];
+            weatherView.Ветер_Скорость = table.Ветер_Скорость[i];
+            weatherView.Давление = table.Давление[i];
+            //weatherView.День_недели = table.День_недели[i];
+            weatherView.Местное_время = table.Местное_время[i];
+            weatherView.Облачность = table.Облачность[i];
+            weatherView.Осадки = table.Осадки[i];
+            weatherView.Ощущается_как = table.Ощущается_как[i];
+            weatherView.Температура = table.Температура[i];
+            weatherView.Туман = table.Туман[i];
+            //
+            Weather weather = new Weather(weatherView);
+            //
+            day.Weathers_RP5.Add(weather);
+        }
 
 
         private static WeatherTable ParseToWeatherTable(IElement divs)
