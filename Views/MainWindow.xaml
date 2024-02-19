@@ -10,10 +10,10 @@
         d:DataContext="{d:DesignInstance {x:Type k:ViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="82*"/>
-            <ColumnDefinition Width="75*"/>
-            <ColumnDefinition Width="97*"/>
-            <ColumnDefinition Width="146*"/>
+            <ColumnDefinition Width="106.321"/>
+            <ColumnDefinition Width="125.942"/>
+            <ColumnDefinition Width="188.912"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="47*"/>
@@ -66,10 +66,13 @@
         </ListBox>
         <DataGrid ItemsSource="{Binding CurrentDay.Weathers_RP5}" Grid.Column="3" Grid.Row="1">
             <DataGrid.Columns>
-               
                 <DataGridTextColumn Binding="{Binding View.Местное_время}" Header="Время" />
-                <DataGridTextColumn Binding="{Binding View.Температура}" Header="Темп." />
-                <DataGridTextColumn Binding="{Binding View.Ветер_Скорость}" Header="Ветер" />
+                <DataGridTextColumn Binding="{Binding View.Температура}" Header="Температура" />
+                <DataGridTextColumn Binding="{Binding View.Облачность}" Header="Облачность" />
+                <DataGridTextColumn Binding="{Binding View.Осадки}" Header="Осадки" />
+                <DataGridTextColumn Binding="{Binding View.Ветер_Направление}" Header="Напр. ветра" />
+                <DataGridTextColumn Binding="{Binding View.Ветер_Скорость}" Header="Скор. ветра" />
+                <DataGridTextColumn Binding="{Binding View.Давление}" Header="Давление" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

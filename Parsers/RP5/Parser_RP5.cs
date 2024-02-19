@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherParser.Common;
@@ -96,9 +97,16 @@ namespace WeatherParser.Parsers.RP5
                 table.Местное_время.Add(div.TextContent.Trim());
             }
             // 3.
-            foreach (IElement div in rows[2].QuerySelectorAll(".cc_0"))
+            // Здесь берем только значения, а в других еще и название, поэтому тут добавим название
+            table.Облачность.Add("Облачность, %");
+            foreach (IElement div in rows[2].QuerySelectorAll("div.cc_0 > div"))
             {
-                table.Облачность.Add(div.TextContent.Trim());
+                string text = "";
+                if (div.HasAttribute("onmouseover"))
+                {
+                    text = GetBetweenStrings(div.GetAttribute("onmouseover"), "<b>", "</b>");
+                }
+                table.Облачность.Add(text);
             }
             // 4.
             foreach (IElement div in rows[3].QuerySelectorAll(".pr_0"))
@@ -142,6 +150,16 @@ namespace WeatherParser.Parsers.RP5
             }
             //
             return table;
+        }
+
+        private static string GetBetweenStrings(string? text, string startString, string endString)
+        {
+            if (text == null) return "";
+            int pFrom = text.IndexOf($"{startString}") + $"{startString}".Length;
+            int pTo = text.LastIndexOf($"{endString}");
+
+            String result = text.Substring(pFrom, pTo - pFrom);
+            return result;
         }
 
     }
