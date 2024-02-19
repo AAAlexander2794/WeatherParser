@@ -96,11 +96,14 @@ namespace WeatherParser.ViewModels
 
         public ParseCommand ParseCommand { get; set; }
 
+        public SaveDataCommand SaveDataCommand { get; set; }
+
         #endregion Команды
 
         public ViewModel()
         {
             ParseCommand = new ParseCommand(this);
+            SaveDataCommand = new SaveDataCommand(this);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

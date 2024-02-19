@@ -21,7 +21,7 @@
             <RowDefinition Height="81*"/>
         </Grid.RowDefinitions>
         <Button Content="Получить" Margin="10,10,10,10" Command="{Binding ParseCommand}"/>
-        <TextBlock Text="{Binding CurrentDay.День_недели}" Grid.ColumnSpan="2" Margin="106,0,0,0"/>
+        <Button Content="Сохранить" Margin="10,10,10,10" Command="{Binding SaveDataCommand}" Grid.Column="1"/>
         <TextBlock Grid.Column="1" Text="{Binding CurrentWeather_rp5.View.Местное_время}" Grid.ColumnSpan="2" Margin="126,0,0,0"/>
         <ListBox ItemsSource="{Binding Regions}" SelectedItem="{Binding CurrentRegion}" Grid.Column="0" Grid.Row="1">
             <ListBox.ItemTemplate>
