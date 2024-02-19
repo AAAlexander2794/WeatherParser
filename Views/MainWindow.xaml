@@ -17,12 +17,20 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="47*"/>
-            <RowDefinition Height="387*"/>
+            <RowDefinition Height="306*"/>
+            <RowDefinition Height="81*"/>
         </Grid.RowDefinitions>
         <Button Content="Получить" Margin="10,10,10,10" Command="{Binding ParseCommand}"/>
-        <TextBlock Grid.Column="1" Text="{Binding CurrentDay.День_недели}"/>
-        <TextBlock Grid.Column="2" Text="{Binding CurrentWeather_rp5.View.Местное_время}"/>
-        <ListBox ItemsSource="{Binding Towns}" SelectedItem="{Binding CurrentTown}" Margin="0,47,0,0" Grid.RowSpan="2">
+        <TextBlock Text="{Binding CurrentDay.День_недели}" Grid.ColumnSpan="2" Margin="106,0,0,0"/>
+        <TextBlock Grid.Column="1" Text="{Binding CurrentWeather_rp5.View.Местное_время}" Grid.ColumnSpan="2" Margin="126,0,0,0"/>
+        <ListBox ItemsSource="{Binding Regions}" SelectedItem="{Binding CurrentRegion}" Grid.Column="0" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox ItemsSource="{Binding CurrentRegion.Towns}" SelectedItem="{Binding CurrentTown}" Grid.Row="1" Grid.Column="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -36,7 +44,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox ItemsSource="{Binding CurrentTown.Days}" SelectedItem="{Binding CurrentDay}" Grid.Column="1" Margin="0,47,0,0" Grid.RowSpan="2">
+        <ListBox ItemsSource="{Binding CurrentTown.Days}" SelectedItem="{Binding CurrentDay}" Grid.Column="2" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock>
@@ -50,21 +58,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox ItemsSource="{Binding CurrentDay.Weathers_RP5}" SelectedItem="{Binding CurrentWeather_rp5}" Grid.Column="2" Grid.Row="1">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock>
-                        <TextBlock.Text>
-                            <MultiBinding StringFormat=" {0} ({1})">
-                                <Binding Path="View.Температура"/>
-                                <Binding Path="View.Местное_время"/>
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <DataGrid ItemsSource="{Binding CurrentDay.Weathers_RP5}" Grid.Column="3" Grid.Row="1">
+        <DataGrid ItemsSource="{Binding CurrentDay.Weathers_RP5}" Grid.Column="2" Grid.ColumnSpan="2" Margin="189,47,0,0" Grid.RowSpan="3">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding View.Местное_время}" Header="Время" />
                 <DataGridTextColumn Binding="{Binding View.Температура}" Header="Температура" />
@@ -75,5 +69,7 @@
                 <DataGridTextColumn Binding="{Binding View.Давление}" Header="Давление" />
             </DataGrid.Columns>
         </DataGrid>
+        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding LogRecords}"/>
+
     </Grid>
 </Window>

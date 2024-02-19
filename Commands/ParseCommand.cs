@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WeatherParser.Common;
+using WeatherParser.Parsers.RP5;
 using WeatherParser.ViewModels;
 
 namespace WeatherParser.Commands
@@ -29,21 +30,28 @@ namespace WeatherParser.Commands
 
         public void Execute(object? parameter)
         {
-            var regions = Parser.Do();
-            Saver.SaveData(regions);
-           
-            List<Town> towns = new List<Town>();
-
-            foreach (var region in regions)
+            // Скачиваем html-страницы для каждого города
+            foreach (var region in _viewModel.Regions)
             {
+                //
                 foreach (var town in region.Towns)
                 {
-                    towns.Add(town);
-                    
+                    town.HtmlDocument = Parser.GetHtml(town.Link_RP5);
+                    //
+                    Logger.Add($"Скачан {town.Name}");
                 }
             }
-            
-            _viewModel.Towns = new ObservableCollection<Town>(towns);
+            // Парсим уже скачанные страницы
+            foreach (var region in _viewModel.Regions)
+            {
+                //
+                foreach (var town in region.Towns)
+                {
+                    Parser_RP5.Parse(town.HtmlDocument, town);
+                    //
+                    Logger.Add($"Обработан {town.Name}");
+                }
+            }
 
             MessageBox.Show("Готово.");
         }

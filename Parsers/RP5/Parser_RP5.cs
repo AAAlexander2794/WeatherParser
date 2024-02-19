@@ -14,7 +14,7 @@ namespace WeatherParser.Parsers.RP5
 {
     public static class Parser_RP5
     {
-        public static Town Parse(IHtmlDocument angle, Town town)
+        public static Town Parse(IHtmlDocument? angle, Town town)
         {
             //
             if (angle == null) return town;
@@ -109,9 +109,17 @@ namespace WeatherParser.Parsers.RP5
                 table.Облачность.Add(text);
             }
             // 4.
-            foreach (IElement div in rows[3].QuerySelectorAll(".pr_0"))
+            // Здесь берем только значения, а в других еще и название, поэтому тут добавим название
+            table.Осадки.Add("Осадки");
+            foreach (IElement div in rows[3].QuerySelectorAll("div.pr_0"))
             {
-                table.Осадки.Add(div.TextContent.Trim());
+                string text = "";
+                if (div.HasAttribute("onmouseover"))
+                {
+                    string? divValue = div.GetAttribute("onmouseover");
+                    text = GetBetweenStrings(divValue, "this, '", " (");
+                }
+                table.Осадки.Add(text);
             }
             // 5.
             foreach (IElement div in rows[4].QuerySelectorAll("td"))
@@ -157,7 +165,7 @@ namespace WeatherParser.Parsers.RP5
             if (text == null) return "";
             int pFrom = text.IndexOf($"{startString}") + $"{startString}".Length;
             int pTo = text.LastIndexOf($"{endString}");
-
+            if (pTo < 0 || pTo < pFrom) return "";
             String result = text.Substring(pFrom, pTo - pFrom);
             return result;
         }

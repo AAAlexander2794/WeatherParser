@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WeatherParser.Parsers.WeatherAtlas;
+using AngleSharp.Html.Dom;
+using AngleSharp.Dom;
 
 namespace WeatherParser.Common
 {
@@ -21,7 +23,11 @@ namespace WeatherParser.Common
 
         public string NameAlt { get; set; } = "";
 
-        #region Ссылки для парсинга
+        public IHtmlDocument? HtmlDocument { get; set; }
+
+        public string Link_RP5 { get; set; } = "";
+
+        #region Ссылки для парсинга старые
 
         /// <summary>
         /// Ссылка на страничку для парсинга
@@ -34,10 +40,8 @@ namespace WeatherParser.Common
 
         public string Link_gismeteo { get; set; } = "";
 
-        public string Link_RP5 { get; set; } = "";
+        public List<Weather> WeatherList { get; set; } = new List<Weather>();
 
         #endregion Ссылки для парсинга
-
-        public List<Weather> WeatherList { get; set; } = new List<Weather>();
     }
 }

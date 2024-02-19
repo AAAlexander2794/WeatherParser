@@ -14,16 +14,45 @@ namespace WeatherParser.ViewModels
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<Town> _towns = new ObservableCollection<Town>();
+        public ObservableCollection<string> LogRecords { get => Logger.LogRecords; }
+
+        private ObservableCollection<Region> _regions = 
+            new ObservableCollection<Region>(DefaultRegions.CreateRegions());
         /// <summary>
-        /// Города
+        /// Регионы
         /// </summary>
-        public ObservableCollection<Town> Towns { get => _towns; set
+        public ObservableCollection<Region> Regions
+        {
+            get => _regions;
+            set
             {
-                _towns = value;
+                _regions = value;
                 OnPropertyChanged();
             }
         }
+
+        private Region? _currentRegion;
+
+        public Region? CurrentRegion
+        {
+            get => _currentRegion;
+            set
+            {
+                _currentRegion = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //private ObservableCollection<Town> _towns = new ObservableCollection<Town>();
+        ///// <summary>
+        ///// Города
+        ///// </summary>
+        //public ObservableCollection<Town> Towns { get => _towns; set
+        //    {
+        //        _towns = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         private Town? _currentTown;
         /// <summary>

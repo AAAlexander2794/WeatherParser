@@ -14,56 +14,13 @@ using WeatherParser.Parsers;
 using System.Net.Http;
 using WeatherParser.Parsers.RP5;
 using WeatherParser.Parsers.WeatherAtlas;
+using AngleSharp;
 
 namespace WeatherParser.Common
 {
-    public class Parser
+    public static class Parser
     {
-        public static List<Region> Do()
-        {
-            var regions = DefaultRegions.CreateRegions();
-            foreach (var region in regions)
-            {
-                //
-                foreach (var town in region.Towns)
-                {
-                     ParseWeather(town, "rp5");
-                    //foreach (var w in ws)
-                    //{
-                    //    town.WeatherList.Add(w);
-                    //}
-                    //// test
-                    //break;
-                }
-            }
-            //
-            return regions;
-        }
-
-        public static void ParseWeather(Town town, string site)
-        {
-            //
-            switch (site)
-            {
-                case "meteoservice":
-                     Parser_MeteoService.Parse(GetHtml(town.Link_meteoservice));
-                    break;
-                case "atlas":
-                     Parser_WeatherAtlas.Parse(GetHtml(town.Link_atlas));
-                    break;
-                case "gismeteo":
-                     Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
-                    break;
-                case "rp5":
-                     Parser_RP5.Parse(GetHtml(town.Link_RP5), town);
-                    break;
-                default:
-                     Parser_Gismeteo.Parse(GetHtml(town.Link_meteoservice));
-                    break;
-            }
-        }
-
-        private static IHtmlDocument GetHtml(string link)
+        public static IHtmlDocument? GetHtml(string link)
         {
             if (link == "") return null;
             //
@@ -94,6 +51,16 @@ namespace WeatherParser.Common
             return data;
         }
 
-
+        private static async Task<IDocument> ReadHtmlAsync(string link)
+        {
+            var config = Configuration.Default.WithDefaultLoader();
+            var address = link;
+            var context = BrowsingContext.New(config);
+            var document = await context.OpenAsync(address);
+            return document;
+            var cellSelector = ".forecastTable";
+            var cells = document.QuerySelectorAll(cellSelector);
+            var titles = cells.Select(m => m.TextContent);
+        }
     }
 }
