@@ -141,13 +141,13 @@ namespace WeatherParser.Common
             });
             donetsk.Towns.Add(new Town()
             {
-                Name = "Зугрес",
+                Name = "Зугрэс",
                 NameAlt = "",
                 Link_meteoservice = "",
                 Link_atlas = "https://www.weather-atlas.com/en/ukraine/zuhres-long-term-weather-forecast",
                 Link_weatheronline = "https://www.weatheronline.co.uk/weather/maps/city?LANG=en&CEL=C&SI=mph&CONT=euro&LAND=UR&REGION=0006&WMO=b4263&LEVEL=52&R=0&NOREGION=1",
                 Link_gismeteo = "",
-                Link_RP5 = ""
+                Link_RP5 = "https://rp5.ru/%D0%9F%D0%BE%D0%B3%D0%BE%D0%B4%D0%B0_%D0%B2_%D0%97%D1%83%D0%B3%D1%80%D1%8D%D1%81%D0%B5"
             });
             donetsk.Towns.Add(new Town()
             {

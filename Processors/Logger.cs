@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WeatherParser.Common
+namespace WeatherParser.Processors
 {
     public static class Logger
     {

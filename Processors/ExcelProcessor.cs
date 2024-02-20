@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace WeatherParser.Common
+namespace WeatherParser.Processors
 {
     internal static class ExcelProcessor
     {
@@ -100,7 +100,7 @@ namespace WeatherParser.Common
                             dt.Columns.Add(cell.Value.ToString());
                         }
                         firstRow = false;
-                        
+
                     }
                     else
                     {

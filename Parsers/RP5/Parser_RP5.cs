@@ -1,5 +1,6 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
+using DocumentFormat.OpenXml.Spreadsheet;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,10 @@ namespace WeatherParser.Parsers.RP5
             var divs = angle.QuerySelector(".forecastTable");
             //
             if (divs == null) return town;
+            //// DEBUG
+            //string str = "";
+            //if (town.Name == "Луганск")
+            //{ str = "stop"; }
             //
             var weatherTable = ParseToWeatherTable(divs);
             //
@@ -72,7 +77,14 @@ namespace WeatherParser.Parsers.RP5
             weatherView.Осадки = table.Осадки[i];
             weatherView.Ощущается_как = table.Ощущается_как[i];
             weatherView.Температура = table.Температура[i];
-            weatherView.Туман = table.Туман[i];
+            if (table.Туман.Count - 1 < i)
+            {
+                weatherView.Туман = "";
+            }
+            else
+            {
+                weatherView.Туман = table.Туман[i];
+            }
             //
             Weather weather = new Weather(weatherView);
             //
@@ -86,6 +98,7 @@ namespace WeatherParser.Parsers.RP5
             WeatherTable table = new WeatherTable();
             // Строки таблицы
             var rows = divs.QuerySelectorAll("tr");
+            // Первые две строки должны присутствовать в этом порядке, поэтому их обрабатываем
             // 1. Все дни недели
             foreach (IElement div in rows[0].QuerySelectorAll(".forecastDate > td"))
             {
@@ -96,65 +109,96 @@ namespace WeatherParser.Parsers.RP5
             {
                 table.Местное_время.Add(div.TextContent.Trim());
             }
-            // 3.
-            // Здесь берем только значения, а в других еще и название, поэтому тут добавим название
-            table.Облачность.Add("Облачность, %");
-            foreach (IElement div in rows[2].QuerySelectorAll("div.cc_0 > div"))
+            // Остальные строки могут быть, а могут и не быть, поэтому по каждой идем и смотрим на title.
+            for (int i = 2; i < rows.Length; i++)
             {
-                string text = "";
-                if (div.HasAttribute("onmouseover"))
+                // Если первая ячейка строки содержит определенный текст, относим ее к определенному элементу погоды
+                if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("Облачность"))
                 {
-                    text = GetBetweenStrings(div.GetAttribute("onmouseover"), "<b>", "</b>");
+                    // 3.
+                    table.Облачность.Add("Облачность, %");
+                    foreach (IElement div in rows[i].QuerySelectorAll("div.cc_0 > div"))
+                    {
+                        string text = "";
+                        if (div.HasAttribute("onmouseover"))
+                        {
+                            text = GetBetweenStrings(div.GetAttribute("onmouseover"), "<b>", "</b>");
+                        }
+                        table.Облачность.Add(text);
+                    }
                 }
-                table.Облачность.Add(text);
-            }
-            // 4.
-            // Здесь берем только значения, а в других еще и название, поэтому тут добавим название
-            table.Осадки.Add("Осадки");
-            foreach (IElement div in rows[3].QuerySelectorAll("div.pr_0"))
-            {
-                string text = "";
-                if (div.HasAttribute("onmouseover"))
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("Осадки"))
                 {
-                    string? divValue = div.GetAttribute("onmouseover");
-                    text = GetBetweenStrings(divValue, "this, '", " (");
+                    // 4.
+                    table.Осадки.Add("Осадки");
+                    foreach (IElement div in rows[i].QuerySelectorAll("div.pr_0"))
+                    {
+                        string text = "";
+                        if (div.HasAttribute("onmouseover"))
+                        {
+                            string? divValue = div.GetAttribute("onmouseover");
+                            text = GetBetweenStrings(divValue, "this, '", " (");
+                        }
+                        table.Осадки.Add(text);
+                    }
                 }
-                table.Осадки.Add(text);
-            }
-            // 5.
-            foreach (IElement div in rows[4].QuerySelectorAll("td"))
-            {
-                table.Туман.Add(div.TextContent.Trim());
-            }
-            // 6.
-            foreach (IElement div in rows[5].QuerySelectorAll(".t_0"))
-            {
-                table.Температура.Add(div.TextContent.Trim());
-            }
-            // 7.
-            foreach (IElement div in rows[6].QuerySelectorAll("td"))
-            {
-                table.Ощущается_как.Add(div.TextContent.Trim());
-            }
-            // 8.
-            foreach (IElement div in rows[7].QuerySelectorAll(".p_0"))
-            {
-                table.Давление.Add(div.TextContent.Trim());
-            }
-            // 9.
-            foreach (IElement div in rows[8].QuerySelectorAll(".wv_0"))
-            {
-                table.Ветер_Скорость.Add(div.TextContent.Trim());
-            }
-            // 10.
-            foreach (IElement div in rows[9].QuerySelectorAll(".wv_0"))
-            {
-                table.Ветер_Порывы.Add(div.TextContent.Trim());
-            }
-            // 11.
-            foreach (IElement div in rows[10].QuerySelectorAll("td"))
-            {
-                table.Ветер_Направление.Add(div.TextContent.Trim());
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("Туман"))
+                {
+                    // 5.
+                    foreach (IElement div in rows[i].QuerySelectorAll("td"))
+                    {
+                        table.Туман.Add(div.TextContent.Trim());
+                    }
+                }
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("Температура"))
+                {
+                    // 6.
+                    foreach (IElement div in rows[i].QuerySelectorAll(".t_0"))
+                    {
+                        table.Температура.Add(div.TextContent.Trim());
+                    }
+                }
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("Ощущается"))
+                {
+                    // 7.
+                    foreach (IElement div in rows[i].QuerySelectorAll("td"))
+                    {
+                        table.Ощущается_как.Add(div.TextContent.Trim());
+                    }
+                }
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("Давление"))
+                {
+                    // 8.
+                    foreach (IElement div in rows[i].QuerySelectorAll(".p_0"))
+                    {
+                        table.Давление.Add(div.TextContent.Trim());
+                    }
+                }
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("скорость"))
+                {
+                    // 9.
+                    foreach (IElement div in rows[i].QuerySelectorAll(".wv_0"))
+                    {
+                        table.Ветер_Скорость.Add(div.TextContent.Trim());
+                    }
+                }
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("порывы"))
+                {
+                    // 10.
+                    table.Ветер_Порывы.Add("Порывы, м/с");
+                    foreach (IElement div in rows[i].QuerySelectorAll("div.wv_0"))
+                    {
+                        table.Ветер_Порывы.Add(div.TextContent.Trim());
+                    }
+                }
+                else if (rows[i].QuerySelectorAll("td")[0].TextContent.Contains("направление"))
+                {
+                    // 11.
+                    foreach (IElement div in rows[i].QuerySelectorAll("td"))
+                    {
+                        table.Ветер_Направление.Add(div.TextContent.Trim());
+                    }
+                }
             }
             //
             return table;

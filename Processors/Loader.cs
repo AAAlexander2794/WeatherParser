@@ -16,9 +16,9 @@ using WeatherParser.Parsers.RP5;
 using WeatherParser.Parsers.WeatherAtlas;
 using AngleSharp;
 
-namespace WeatherParser.Common
+namespace WeatherParser.Processors
 {
-    public static class Parser
+    public static class Loader
     {
         public static IHtmlDocument? GetHtml(string link)
         {

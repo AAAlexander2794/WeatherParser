@@ -23,6 +23,9 @@ namespace WeatherParser.Common
 
         public string NameAlt { get; set; } = "";
 
+        /// <summary>
+        /// Скачанная html-таблица с данными всех дней (РП5)
+        /// </summary>
         public IHtmlDocument? HtmlDocument { get; set; }
 
         public string Link_RP5 { get; set; } = "";

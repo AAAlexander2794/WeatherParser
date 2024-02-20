@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using WeatherParser.Commands;
 using WeatherParser.Common;
 using WeatherParser.Parsers.RP5;
+using WeatherParser.Processors;
 
 namespace WeatherParser.ViewModels
 {
@@ -94,6 +95,8 @@ namespace WeatherParser.ViewModels
 
         #region Команды
 
+        public LoadDataCommand LoadDataCommand { get; set; }
+
         public ParseCommand ParseCommand { get; set; }
 
         public SaveDataCommand SaveDataCommand { get; set; }
@@ -102,6 +105,7 @@ namespace WeatherParser.ViewModels
 
         public ViewModel()
         {
+            LoadDataCommand = new LoadDataCommand(this);
             ParseCommand = new ParseCommand(this);
             SaveDataCommand = new SaveDataCommand(this);
         }

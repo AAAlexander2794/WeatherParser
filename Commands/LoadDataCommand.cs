@@ -1,25 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using WeatherParser.Common;
-using WeatherParser.Parsers.RP5;
 using WeatherParser.Processors;
 using WeatherParser.ViewModels;
 
 namespace WeatherParser.Commands
 {
-    public class ParseCommand : ICommand
+    public class LoadDataCommand : ICommand
     {
         public event EventHandler? CanExecuteChanged;
 
         private readonly ViewModel _viewModel;
 
-        public ParseCommand(ViewModel viewModel)
+        public LoadDataCommand(ViewModel viewModel)
         {
             _viewModel = viewModel;
         }
@@ -31,20 +28,19 @@ namespace WeatherParser.Commands
 
         public void Execute(object? parameter)
         {
-            
-            // Парсим уже скачанные страницы
+            // Скачиваем html-страницы для каждого города
             foreach (var region in _viewModel.Regions)
             {
                 //
                 foreach (var town in region.Towns)
                 {
-                    Parser_RP5.Parse(town.HtmlDocument, town);
+                    town.HtmlDocument = Loader.GetHtml(town.Link_RP5);
                     //
-                    Logger.Add($"Обработан {town.Name}");
+                    Logger.Add($"Скачан {town.Name}.");
                 }
             }
             //
-            Logger.Add($"Обработаны данные по городам.");
+            Logger.Add($"Скачаны данные по городам.");
         }
     }
 }

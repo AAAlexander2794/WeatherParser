@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using WeatherParser.Common;
 
-
-namespace WeatherParser.Common
+namespace WeatherParser.Processors
 {
     public static class Saver
     {
